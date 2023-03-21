@@ -72,6 +72,57 @@ struct ContentView: View {
                             }
                         }
                     }
+                    
+                    Button("BoxBlur"){
+                        if let inputImage = selectedImage{
+                            let beginImage = CIImage(image: inputImage)
+                            let currentFilter = CIFilter.boxBlur()
+                            currentFilter.inputImage = beginImage
+                            currentFilter.radius = 40
+                            
+                            guard let outputImage = currentFilter.outputImage else { return }
+                            if let cgImage = context.createCGImage(outputImage, from: outputImage.extent){
+                                let uiImage = UIImage(cgImage:cgImage)
+                                self.selectedImage = uiImage
+                            }
+                        }
+                       
+                    }
+                    
+                    Button("ColorThreshold"){
+                        if let inputImage = selectedImage{
+                            let beginImage = CIImage(image: inputImage)
+                            let currentFilter = CIFilter.colorThreshold()
+                            currentFilter.inputImage = beginImage
+                            currentFilter.threshold = 0.5
+                            
+                            guard let outputImage = currentFilter.outputImage else { return }
+                            if let cgImage = context.createCGImage(outputImage, from: outputImage.extent){
+                                let uiImage = UIImage(cgImage:cgImage)
+                                self.selectedImage = uiImage
+                            }
+                        }
+                       
+                    }
+                    
+                    Button("MotionBlur"){
+                        if let inputImage = selectedImage{
+                            let beginImage = CIImage(image: inputImage)
+                            let currentFilter = CIFilter.motionBlur()
+                            currentFilter.inputImage = beginImage
+                            currentFilter.angle = 3
+                            currentFilter.radius = 20
+                            
+                            guard let outputImage = currentFilter.outputImage else { return }
+                            if let cgImage = context.createCGImage(outputImage, from: outputImage.extent){
+                                let uiImage = UIImage(cgImage:cgImage)
+                                self.selectedImage = uiImage
+                            }
+                        }
+                       
+                    }
+                    
+                    
                 }
             }.sheet(isPresented: self.$displayPickerView) {
                 ImagePickerView(selectedImage: self.$selectedImage, sourceType: self.sourceType)
